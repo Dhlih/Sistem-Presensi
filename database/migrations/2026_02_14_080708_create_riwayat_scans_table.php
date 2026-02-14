@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('riwayat_scans', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id("id_riwayat_scan");
+            $table->foreignId("id_sesi_qr");
+            $table->foreignId("id_enrollment_mahasiswa");
+            $table->string("status_kehadiran");
+            $table->timestamp('waktu_scan');
         });
     }
 

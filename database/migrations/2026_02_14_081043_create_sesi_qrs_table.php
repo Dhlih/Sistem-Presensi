@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('sesi_qrs', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id("id_sesi_qr");
+            $table->foreignId("id_jadwal");
+            $table->timestamp("waktu_mulai");
+            $table->timestamp("waktu_berakhir");
+            $table->string("qr_token");
         });
     }
 

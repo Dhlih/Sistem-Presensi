@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('jadwals', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id("id_jadwal");
+            $table->foreignId("id_enrollment_dosen");
+            $table->string("hari");
+            $table->time('jam_mulai');
+            $table->time('jam_selesai');
         });
     }
 

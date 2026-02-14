@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('enrollment_mahasiswas', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id("id_enrollment_mahasiswa");
+            $table->foreignId("id_mahasiswa");
+            $table->foreignId("id_mata_kuliah");
+            $table->foreignId("id_tahun_ajaran");
         });
     }
 
