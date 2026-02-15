@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId("id_pengguna");
             $table->string("nama");
             $table->string(column: "nip")->unique();
+            $table->string("prodi");
         });
     }
 
