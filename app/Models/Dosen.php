@@ -6,5 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dosen extends Model
 {
-    //
+    protected $fillable = ["id_dosen", "id_pengguna", "nama", "nip"];
+    
+    public function pengguna()
+    {
+        return $this->belongsTo(Pengguna::class, 'id_pengguna');
+    }
+
+    public function enrollment_dosen()
+    {
+        return $this->hasMany(EnrollmentDosen::class, 'id_dosen');
+    }
 }

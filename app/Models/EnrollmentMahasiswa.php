@@ -6,5 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class EnrollmentMahasiswa extends Model
 {
-    //
+    protected $fillable = ["id_enrollment_mahasiswa", "id_mahasiswa", "id_mata_kuliah", "id_tahun_ajaran"];
+
+    public function tahun_ajaran()
+    {
+        return $this->belongsTo(TahunAjaran::class, 'id_tahun_ajaran');
+    }
+
+    public function jadwal()
+    {
+        return $this->hasMany(Jadwal::class, 'id_enrollment_dosen');
+    }
 }
