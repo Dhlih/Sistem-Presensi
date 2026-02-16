@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id("id_mata_kuliah");
             $table->string("nama");
             $table->integer(column: "sks");
+            $table->timestamps();
         });
     }
 

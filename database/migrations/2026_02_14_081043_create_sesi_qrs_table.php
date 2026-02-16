@@ -17,6 +17,7 @@ return new class extends Migration
             $table->timestamp("waktu_mulai");
             $table->timestamp("waktu_berakhir");
             $table->string("qr_token");
+            $table->timestamps();
         });
     }
 

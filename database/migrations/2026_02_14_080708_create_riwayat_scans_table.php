@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId("id_enrollment_mahasiswa");
             $table->string("status_kehadiran");
             $table->timestamp('waktu_scan');
+            $table->timestamps();
         });
     }
 

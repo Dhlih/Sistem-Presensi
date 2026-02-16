@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId("id_dosen");
             $table->foreignId("id_mata_kuliah");
             $table->foreignId("id_tahun_ajaran");
+            $table->timestamps();
         });
     }
 
