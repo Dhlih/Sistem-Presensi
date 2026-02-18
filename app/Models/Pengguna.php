@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Pengguna extends Authenticatable
 {
+    protected $primaryKey = 'id_pengguna';
     protected $fillable = ["id_pengguna", "username", "password", "jenis_role"];
 
     public function mahasiswa()

@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mahasiswa extends Model
 {
-    protected $fillable = ["id_mahasiswa", "id_pengguna", "nama", "nim"];
+    protected $primaryKey = 'id_mahasiswa';
+
+    protected $fillable = ["id_mahasiswa", "id_pengguna", "nama", "nim", "prodi"];
 
     public function pengguna()
     {

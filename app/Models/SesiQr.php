@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SesiQr extends Model
 {
+    protected $primaryKey = 'id_sesi_qr';
+
     protected $fillable = ["id_sesi_qr", "id_jadwal", "waktu_mulai", "waktu_berakhir", "qr_token"];
 
     public function riwayat_scan()

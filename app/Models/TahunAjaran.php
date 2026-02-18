@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class TahunAjaran extends Model
 {
+    protected $primaryKey = 'id_tahun_ajaran';
+
     protected $fillable = ["id_tahun_ajaran", "tahun", "semester"];
 
     public function enrollment_mahasiswa()
