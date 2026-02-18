@@ -8,11 +8,14 @@ Route::get('/', function () {
     return redirect("/login");
 });
 
-// Authentication
-Route::get('/login', [AuthController::class, "show_login"]);
-Route::post('/login', [AuthController::class, "login"]);
-Route::post('/logout', [AuthController::class, "logout"]);
+Route::middleware("guest")->group(function () {
+    Route::get('/login', [AuthController::class, "show_login"])->name("login");
+    Route::post('/login', [AuthController::class, "login"]);
+});
 
-Route::get('/dashboard', function () {
-    return Inertia::render("Dashboard");
+Route::middleware("auth")->group(function () {
+    Route::get('/dashboard', function () {
+        return Inertia::render("Dashboard");
+    })->name("dashboard");
+    Route::post('/logout', [AuthController::class, "logout"]);
 });
