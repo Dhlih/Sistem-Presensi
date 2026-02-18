@@ -10,8 +10,8 @@ const SimpleLogin = () => {
     const { flash } = usePage().props;
 
     const handleSubmit = (e) => {
-        if (!data.username || !data.password) return;
         e.preventDefault();
+        if (!data.username || !data.password) return;
         post("/login");
     };
 
