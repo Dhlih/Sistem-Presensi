@@ -11,10 +11,17 @@ import {
     AlertCircle,
     FileText,
 } from "lucide-react";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 
 const Dashboard = () => {
     const { post } = useForm();
+    const { auth, data } = usePage().props;
+
+    const isMahasiswa = auth.mahasiswa ? true : false;
+    const user = isMahasiswa ? auth.mahasiswa : auth.dosen;
+
+    console.log(data);
+
     const handleLogout = () => {
         post("/logout");
     };
@@ -77,13 +84,13 @@ const Dashboard = () => {
                     <StatCard
                         icon={<BookOpen className="text-blue-600" />}
                         label="SKS"
-                        value="39"
+                        value={data?.jumlah_sks}
                         color="bg-blue-100"
                     />
                     <StatCard
                         icon={<FileText className="text-purple-600" />}
                         label="Matakuliah"
-                        value="8"
+                        value={data?.jumlah_mata_kuliah}
                         color="bg-purple-100"
                     />
                     <StatCard
@@ -114,22 +121,22 @@ const Dashboard = () => {
                         </div>
                         <div>
                             <h2 className="text-xl font-bold text-slate-800 uppercase tracking-tight">
-                                Yusuf Fadhlih Firmansyah
+                                {user?.nama}
                             </h2>
                             <span className="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded">
-                                MAHASISWA
+                                {isMahasiswa ? "MAHASISWA" : "DOSEN"}
                             </span>
                         </div>
                     </div>
 
                     <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-12">
-                        <InfoItem label="NIM" value="4.33.24.1.26" />
-                        <InfoItem label="Semester" value="Gasal" />
+                        <InfoItem label="NIM" value={user?.nim} />
+                        <InfoItem label="Semester" value={data?.semester} />
+                        <InfoItem label="Prodi" value={user?.prodi} />
                         <InfoItem
-                            label="Prodi"
-                            value="Teknologi Rekayasa Komputer"
+                            label="Tahun Ajaran"
+                            value={data?.tahun_ajaran}
                         />
-                        <InfoItem label="Tahun Akademik" value="2025/2026" />
                     </div>
                 </div>
             </main>
