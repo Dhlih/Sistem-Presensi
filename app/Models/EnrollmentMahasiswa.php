@@ -15,6 +15,16 @@ class EnrollmentMahasiswa extends Model
         return $this->belongsTo(TahunAjaran::class, 'id_tahun_ajaran');
     }
 
+    public function mata_kuliah()
+    {
+        return $this->belongsTo(MataKuliah::class, 'id_mata_kuliah');
+    }
+
+    public function mahasiswa()
+    {
+        return $this->belongsTo(Mahasiswa::class, 'id_mahasiswa');
+    }
+
     public function jadwal()
     {
         return $this->hasMany(Jadwal::class, 'id_enrollment_dosen');
