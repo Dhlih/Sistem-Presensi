@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('enrollment_mahasiswas', function (Blueprint $table) {
             $table->id("id_enrollment_mahasiswa");
             $table->foreignId("id_mahasiswa");
-            $table->foreignId("id_mata_kuliah");
+            $table->foreignId("id_enrollment_dosen");
             $table->foreignId("id_tahun_ajaran");
             $table->timestamps();
         });
