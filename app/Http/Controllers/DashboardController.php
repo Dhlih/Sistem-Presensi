@@ -14,10 +14,10 @@ class DashboardController extends Controller
     {
         $pengguna = Auth::user()->load("mahasiswa");
         $tahun_ajaran  = TahunAjaran::latest()->first();
-        $enrollments = EnrollmentMahasiswa::with("mata_kuliah")->where("id_tahun_ajaran", $tahun_ajaran->id_tahun_ajaran)->where("id_mahasiswa", $pengguna->mahasiswa->id_mahasiswa)->get();
+        $enrollments = EnrollmentMahasiswa::with("enrollment_dosen.mata_kuliah")->where("id_tahun_ajaran", $tahun_ajaran->id_tahun_ajaran)->where("id_mahasiswa", $pengguna->mahasiswa->id_mahasiswa)->get();
 
         $jumlah_sks = $enrollments->map(function ($enrollment) {
-            return $enrollment->mata_kuliah->sks ?? 0;
+            return $enrollment->enrollment_dosen->mata_kuliah->sks ?? 0;
         })->sum();
         $jumlah_mata_kuliah = $enrollments->count();
 
