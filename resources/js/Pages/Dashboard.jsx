@@ -1,73 +1,22 @@
-import React from "react";
 import {
-    LayoutDashboard,
     ClipboardCheck,
-    Calendar,
     UserCircle,
-    LogOut,
-    GraduationCap,
     BookOpen,
     Clock,
     AlertCircle,
     FileText,
 } from "lucide-react";
-import { useForm, usePage } from "@inertiajs/react";
+import { usePage } from "@inertiajs/react";
+import Layout from "../Components/Layout";
 
 const Dashboard = () => {
-    const { post } = useForm();
     const { auth, data } = usePage().props;
 
     const isMahasiswa = auth.mahasiswa ? true : false;
     const user = isMahasiswa ? auth.mahasiswa : auth.dosen;
 
-    console.log(data);
-
-    const handleLogout = () => {
-        post("/logout");
-    };
-
     return (
-        <div className="flex min-h-screen bg-slate-50 font-sans">
-            {/* --- SIDEBAR --- */}
-            <aside className="w-64 bg-white border-r border-slate-200 flex flex-col fixed h-full transition-all">
-                <div className="p-6 flex items-center gap-3 border-b border-slate-50">
-                    <div className="bg-blue-600 p-2 rounded-lg text-white">
-                        <GraduationCap size={24} />
-                    </div>
-                    <span className="font-bold text-lg tracking-tight text-blue-900">
-                        PRESENSI
-                    </span>
-                </div>
-
-                <nav className="flex-1 p-4 space-y-2">
-                    <NavItem
-                        icon={<LayoutDashboard size={20} />}
-                        label="Dashboard"
-                        active
-                    />
-                    <NavItem
-                        icon={<ClipboardCheck size={20} />}
-                        label="Presensi Saya"
-                    />
-                    <NavItem
-                        icon={<Calendar size={20} />}
-                        label="Jadwal Kuliah"
-                    />
-                    <NavItem icon={<UserCircle size={20} />} label="Profil" />
-                </nav>
-
-                <div className="p-4 border-t border-slate-100">
-                    <button
-                        className="flex items-center gap-3 w-full px-4 py-3 text-red-500 hover:bg-red-50 rounded-xl transition-colors font-semibold text-sm"
-                        onClick={() => handleLogout()}
-                    >
-                        <LogOut size={20} />
-                        Keluar
-                    </button>
-                </div>
-            </aside>
-
-            {/* --- MAIN CONTENT --- */}
+        <Layout>
             <main className="flex-1 ml-64 p-8">
                 {/* Header Section */}
                 <div className="mb-8">
@@ -140,24 +89,11 @@ const Dashboard = () => {
                     </div>
                 </div>
             </main>
-        </div>
+        </Layout>
     );
 };
 
 // Sub-komponen agar kode rapi
-const NavItem = ({ icon, label, active = false }) => (
-    <a
-        href="#"
-        className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-medium ${
-            active
-                ? "bg-blue-600 text-white shadow-md shadow-blue-200"
-                : "text-slate-500 hover:bg-slate-100 hover:text-blue-600"
-        }`}
-    >
-        {icon}
-        {label}
-    </a>
-);
 
 const StatCard = ({ icon, label, value, color }) => (
     <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-3">
