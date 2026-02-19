@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id("id_jadwal");
             $table->foreignId("id_enrollment_dosen");
             $table->string("hari");
+            $table->string("ruangan");
             $table->time('jam_mulai');
             $table->time('jam_selesai');
             $table->timestamps();
