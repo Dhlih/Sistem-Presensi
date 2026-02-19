@@ -29,4 +29,9 @@ class EnrollmentDosen extends Model
     {
         return $this->hasMany(Jadwal::class, 'id_enrollment_dosen');
     }
+
+    public function enrollment_mahasiswa()
+    {
+        return $this->hasMany(EnrollmentMahasiswa::class, 'id_enrollment_dosen');
+    }
 }
