@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\JadwalController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -16,5 +17,8 @@ Route::middleware("guest")->group(function () {
 
 Route::middleware("auth")->group(function () {
     Route::get('/dashboard', [DashboardController::class, "show_dashboard"])->name("dashboard");
+
+    Route::get('/jadwal', [JadwalController::class, "show_jadwal_kuliah"]);
+    
     Route::post('/logout', [AuthController::class, "logout"]);
 });
