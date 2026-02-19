@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     /**
- * Seed the application's database.
+     * Seed the application's database.
      */
     public function run(): void
     {
@@ -16,8 +16,11 @@ class DatabaseSeeder extends Seeder
             MataKuliahSeeder::class,
             TahunAjaranSeeder::class,
             PenggunaSeeder::class,
+            DosenSeeder::class,
             MahasiswaSeeder::class,
-            EnrollmentMahasiswaSeeder::class
+            EnrollmentDosenSeeder::class,
+            EnrollmentMahasiswaSeeder::class,
+            JadwalSeeder::class
         ]);
     }
 }
