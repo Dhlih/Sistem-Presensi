@@ -8,16 +8,11 @@ class EnrollmentMahasiswa extends Model
 {
     protected $primaryKey = 'id_enrollment_mahasiswa';
 
-    protected $fillable = ["id_enrollment_mahasiswa", "id_mahasiswa", "id_mata_kuliah", "id_tahun_ajaran"];
+    protected $fillable = ["id_enrollment_mahasiswa", "id_mahasiswa", "id_enrollment_dosen", "id_tahun_ajaran"];
 
     public function tahun_ajaran()
     {
         return $this->belongsTo(TahunAjaran::class, 'id_tahun_ajaran');
-    }
-
-    public function mata_kuliah()
-    {
-        return $this->belongsTo(MataKuliah::class, 'id_mata_kuliah');
     }
 
     public function mahasiswa()
@@ -25,8 +20,8 @@ class EnrollmentMahasiswa extends Model
         return $this->belongsTo(Mahasiswa::class, 'id_mahasiswa');
     }
 
-    public function jadwal()
+    public function enrollment_dosen()
     {
-        return $this->hasMany(Jadwal::class, 'id_enrollment_dosen');
+        return $this->belongsTo(EnrollmentDosen::class, 'id_enrollment_dosen');
     }
 }
