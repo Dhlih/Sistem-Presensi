@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("nama");
             $table->string("nim")->unique();
             $table->string("prodi");
+            $table->string("kelas");
             $table->timestamps();
         });
     }
