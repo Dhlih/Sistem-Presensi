@@ -10,7 +10,9 @@ import {
 
 const Layout = ({ children }) => {
     const { post, processing } = useForm();
-    const {url} = usePage()
+    const {url, props} = usePage()
+    const user = props.auth;
+    const rolePath = user.mahasiswa? "/mahasiswa" : "/dosen"
 
     const handleLogout = () => {
         post("/logout");
@@ -18,7 +20,7 @@ const Layout = ({ children }) => {
 
     return (
         <div className="flex min-h-screen bg-slate-50 font-sans">
-            <aside className="w-64 bg-white border-r border-slate-200 flex flex-col fixed h-full transition-all">
+            <aside className="w-64  bg-white border-r border-slate-200 flex flex-col fixed h-full transition-all">
                 <div className="p-6 flex items-center gap-3 border-b border-slate-50">
                     <div className="bg-blue-600 p-2 rounded-lg text-white">
                         <GraduationCap size={24} />
@@ -32,20 +34,20 @@ const Layout = ({ children }) => {
                     <NavItem
                         icon={<LayoutDashboard size={20} />}
                         label="Dashboard"
-                        active={url === "/dashboard"}
-                        href="/dashboard"
+                        active={url === `${rolePath}/dashboard`}
+                        href={`${rolePath}/dashboard`}
                     />
                     <NavItem
                         icon={<Calendar size={20} />}
                         label="Jadwal Kuliah"
-                        active={url === "/jadwal"}
-                        href="/jadwal"
+                        active={url === `${rolePath}/jadwal`}
+                        href={`${rolePath}/jadwal`}
                     />
                     <NavItem
                         icon={<History size={20} />}
                         label="Riwayat"
-                        active={url === "/riwayat"}
-                        href="/riwayat"
+                        active={url === `${rolePath}/riwayat`}
+                        href={`${rolePath}/riwayat`}
                     />
                 </nav>
 
