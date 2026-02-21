@@ -24,15 +24,17 @@ class AuthController extends Controller
         $username = $request->username;
         $password = $request->password;
 
-        // dd($username, $password);
-
         $pengguna = Pengguna::where("username", $username)->first();
 
         if ($pengguna && Hash::check($password, $pengguna->password)) {
             Auth::login($pengguna);
             $request->session()->regenerate();
 
-            return redirect("/dashboard");
+            if ($pengguna->jenis_role === "mahasiswa") {
+                return redirect("/mahasiswa/dashboard");
+            } else if ($pengguna->jenis_role === "dosen") {
+                return redirect("/dosen/dashboard");
+            }
         }
         return back()->with("error", "Username atau password salah");
     }
