@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('jadwals', function (Blueprint $table) {
             $table->id("id_jadwal");
             $table->foreignId("id_enrollment_dosen");
-            $table->integer("hari");
+        $table->integer("hari");
             $table->string("ruangan");
+            $table->string('kelas');
             $table->time('jam_mulai');
             $table->time('jam_selesai');
             $table->timestamps();
