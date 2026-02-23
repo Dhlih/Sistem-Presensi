@@ -1,8 +1,7 @@
-import React, { useState } from "react";
 import { User, Lock, ArrowRight, GraduationCap } from "lucide-react";
 import { useForm, usePage } from "@inertiajs/react";
 
-const SimpleLogin = () => {
+const Login = () => {
     const { data, setData, post, processing } = useForm({
         username: "",
         password: "",
@@ -125,4 +124,4 @@ const SimpleLogin = () => {
     );
 };
 
-export default SimpleLogin;
+export default Login;

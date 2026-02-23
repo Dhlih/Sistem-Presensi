@@ -17,7 +17,8 @@ class MahasiswaSeeder extends Seeder
             'id_pengguna' => 1,
             'nama' => "Ifad Yusuf",
             'nim' => 123456,
-            'prodi' => 'TRK'
+            'prodi' => 'TRK',
+            'kelas' => 'TI-2B'
         ]);
     }
 }
