@@ -1,21 +1,18 @@
-import React from "react";
 import { usePage } from "@inertiajs/react";
 import {
-    CalendarDays,
     MapPin,
     User,
     Clock,
     Calendar as CalendarIcon,
     BookOpen,
+    ScanLine,
 } from "lucide-react";
 import Layout from "../../Components/Layout";
 
 const JadwalKuliah = () => {
     // Mengambil data dari props Inertia
-    const { jadwal_reguler = [], jadwal_hari_ini = [] } = usePage().props;
-    console.log(jadwal_reguler);
-
-    // Data dummy untuk visualisasi jika jadwal_hari_ini kosong
+    const { data } = usePage().props;
+    const { jadwal_reguler, jadwal_hari_ini } = data;
 
     return (
         <Layout>
@@ -73,6 +70,12 @@ const JadwalKuliah = () => {
                                             {item.ruangan}
                                         </span>
                                     </div>
+                                </div>
+                                <div className="mt-6 pt-4 border-t border-slate-50">
+                                    <button className="flex items-center justify-center  gap-2 w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors font-bold text-sm shadow-sm shadow-blue-100">
+                                        <ScanLine size={18} />
+                                        Scan Kode Qr
+                                    </button>
                                 </div>
                             </div>
                         ))}
