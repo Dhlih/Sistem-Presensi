@@ -15,6 +15,10 @@ class EnrollmentMahasiswa extends Model
         return $this->belongsTo(TahunAjaran::class, 'id_tahun_ajaran');
     }
 
+    public function riwayat_scan() {
+        return $this->hasMany(RiwayatScan::class, "id_enrollment_mahasiswa");
+    }
+
     public function mahasiswa()
     {
         return $this->belongsTo(Mahasiswa::class, 'id_mahasiswa');
