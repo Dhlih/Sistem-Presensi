@@ -60,8 +60,10 @@ class JadwalController extends Controller
         // dd($jadwal_hari_ini->toArray());
 
         return Inertia::render("Mahasiswa/JadwalKuliah", [
-            "jadwal_reguler" => $jadwal_reguler,
-            "jadwal_hari_ini" => $jadwal_hari_ini
+            "data" => [
+                "jadwal_reguler" => $jadwal_reguler,
+                "jadwal_hari_ini" => $jadwal_hari_ini
+            ]
         ]);
     }
 }
