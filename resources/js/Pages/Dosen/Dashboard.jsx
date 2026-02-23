@@ -2,9 +2,6 @@ import {
     ClipboardCheck,
     UserCircle,
     BookOpen,
-    Clock,
-    AlertCircle,
-    FileText,
     GraduationCap,
     Users,
 } from "lucide-react";
@@ -13,8 +10,6 @@ import Layout from "../../Components/Layout";
 
 const Dashboard = () => {
     const { auth, data } = usePage().props;
-    console.log(auth);
-    console.log(data)
 
     return (
         <Layout>
