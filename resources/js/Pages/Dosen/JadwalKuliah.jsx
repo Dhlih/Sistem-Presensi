@@ -6,22 +6,79 @@ import {
     BookOpen,
     Users,
     QrCode,
+    CheckCircle2,
+    AlertCircle,
+    X,
 } from "lucide-react";
 import Layout from "../../Components/Layout";
+import { useEffect, useState } from "react";
 
 const JadwalKuliah = () => {
-    const { data = {} } = usePage().props;
+    const [showFlash, setShowFlash ] = useState(false)
+    const { data = {}, flash } = usePage().props;
     const { post, processing } = useForm();
 
     const { jadwal_reguler = [], jadwal_hari_ini = [] } = data;
+    console.log(jadwal_hari_ini);
 
     const handleMulaiPresensi = (idJadwal) => {
         post(`/dosen/jadwal/${idJadwal}/presensi`);
     };
 
+    useEffect(() => {
+        if (flash.error || flash.success) {
+            setShowFlash(true);
+
+            const timer = setTimeout(() => {
+                setShowFlash(false);
+            }, 5000);
+
+            // Cleanup function: Membersihkan timer jika komponen unmount
+            return () => clearTimeout(timer);
+        }
+    }, [flash]);
+
     return (
         <Layout>
             <main className="flex-1 ml-64 p-8 bg-slate-50 min-h-screen">
+                {showFlash && (flash.error || flash.success) && (
+                    <div className="fixed top-5 right-5 z-[110] transition-all duration-500 transform translate-y-0 opacity-100">
+                        <div
+                            className={`flex items-center gap-3 p-4 rounded-2xl shadow-2xl border min-w-[300px] ${
+                                flash.error
+                                    ? "bg-white border-l-4 border-l-red-500 border-red-100 text-red-800"
+                                    : "bg-white border-l-4 border-l-emerald-500 border-emerald-100 text-emerald-800"
+                            }`}
+                        >
+                            <div
+                                className={`${flash.error ? "text-red-500" : "text-emerald-500"}`}
+                            >
+                                {flash.error ? (
+                                    <AlertCircle size={24} />
+                                ) : (
+                                    <CheckCircle2 size={24} />
+                                )}
+                            </div>
+                            <div className="flex-1">
+                                <p className="font-bold text-sm">
+                                    {flash.error
+                                        ? "Ops! Ada Masalah"
+                                        : "Berhasil"}
+                                </p>
+                                <p className="text-xs text-slate-600">
+                                    {flash.error || flash.success}
+                                </p>
+                            </div>
+                            <button
+                                onClick={() => setShowFlash(false)}
+                                className="text-slate-400 hover:text-slate-600 transition-colors"
+                            >
+                                < X size={18} />
+                            </button>
+                        </div>
+                    </div>
+                )}
+
                 {/* Header Section */}
                 <div className="mb-8">
                     <h1 className="text-2xl font-bold text-slate-800">
@@ -80,18 +137,25 @@ const JadwalKuliah = () => {
 
                                     {/* Tombol Generate QR / Mulai Presensi */}
                                     <div className="mt-6 pt-4 border-t border-slate-50">
-                                        <button
-                                            className="flex items-center justify-center  gap-2 w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors font-bold text-sm shadow-sm shadow-blue-100"
-                                            disabled={processing}
-                                            onClick={() =>
-                                                handleMulaiPresensi(
-                                                    item.id_jadwal,
-                                                )
-                                            }
-                                        >
-                                            <QrCode size={18} />
-                                            Mulai Presensi
-                                        </button>
+                                        {item.kode_sudah_dibuat ? (
+                                            <button className="flex items-center justify-center gap-2 w-full py-3 bg-slate-100 text-slate-400 rounded-xl cursor-default font-bold text-sm">
+                                                <CheckCircle2 size={18} />
+                                                Sudah Dibuat
+                                            </button>
+                                        ) : (
+                                            <button
+                                                className="flex items-center justify-center  gap-2 w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors font-bold text-sm shadow-sm shadow-blue-100"
+                                                disabled={processing}
+                                                onClick={() =>
+                                                    handleMulaiPresensi(
+                                                        item.id_jadwal,
+                                                    )
+                                                }
+                                            >
+                                                <QrCode size={18} />
+                                                Mulai Presensi
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             ))
