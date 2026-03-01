@@ -9,14 +9,15 @@ import {
     RefreshCw,
     Timer,
 } from "lucide-react";
+
 import { QRCodeSVG } from "qrcode.react";
 import Layout from "../../Components/Layout";
 
 const Presensi = () => {
     const { data } = usePage().props;
-    const {daftar_mahasiswa = [], sesi_aktif = {}, mata_kuliah, kelas} = data
+    const { daftar_mahasiswa = [], sesi_aktif = {}, mata_kuliah, kelas } = data;
     const expires_at = "";
-
+    console.log(daftar_mahasiswa);
     const [timeLeft, setTimeLeft] = useState(0);
 
     useEffect(() => {
@@ -95,7 +96,7 @@ const Presensi = () => {
 
                         <div className="p-6 bg-white rounded-3xl border-8 border-slate-50 shadow-inner">
                             <QRCodeSVG
-                                value={"EMPTY"}
+                                value={`/mahasiswa/presensi/token/${sesi_aktif?.qr_token}`}
                                 size={320}
                                 level="H"
                             />
