@@ -35,6 +35,11 @@ class PenggunaSeeder extends Seeder
                 'password' => Hash::make("password"),
                 'jenis_role' => "dosen"
             ],
+            [
+                'username' => 'zilan',
+                'password' => Hash::make("password"),
+                'jenis_role' => "mahasiswa"
+            ],
         ]);
     }
 }

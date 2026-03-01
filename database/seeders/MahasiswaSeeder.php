@@ -14,11 +14,20 @@ class MahasiswaSeeder extends Seeder
     public function run(): void
     {
         DB::table('mahasiswas')->insert([
-            'id_pengguna' => 1,
-            'nama' => "Ifad Yusuf",
-            'nim' => 123456,
-            'prodi' => 'TRK',
-            'kelas' => 'TI-2B'
+            [
+                'id_pengguna' => 1,
+                'nama' => "Ifad Yusuf",
+                'nim' => 123456,
+                'prodi' => 'TRK',
+                'kelas' => 'IK-2B'
+            ], 
+            [
+                'id_pengguna' => 5,
+                'nama' => "Zilan Kamal",
+                'nim' => 321321,
+                'prodi' => 'TRK',
+                'kelas' => 'TI-2B'
+            ]
         ]);
     }
 }

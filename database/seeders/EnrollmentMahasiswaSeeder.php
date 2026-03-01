@@ -17,7 +17,7 @@ class EnrollmentMahasiswaSeeder extends Seeder
             [
                 'id_mahasiswa' => 1,
                 'id_enrollment_dosen' => 1,
-                'id_tahun_ajaran' => 1,
+                'id_tahun_ajaran' => 4,
             ],
             [
                 'id_mahasiswa' => 1,

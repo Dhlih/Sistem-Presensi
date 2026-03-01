@@ -40,8 +40,8 @@ class JadwalSeeder extends Seeder
             ],
             [
                 'id_enrollment_dosen' => 1,
-                'hari' => 1,
-                'jam_mulai' => '12:30:00',
+                'hari' => 7,
+                'jam_mulai' => '12:00:00',
                 'jam_selesai' => '13:30:00',
                 'ruangan' => "SB II / 03",
                 'kelas' => 'IK-2B'
