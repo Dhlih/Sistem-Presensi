@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Mahasiswa;
 
 use App\Http\Controllers\Controller;
 use App\Models\EnrollmentMahasiswa;
+use App\Models\TahunAjaran;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
@@ -12,14 +14,17 @@ class JadwalController extends Controller
     public function show_jadwal_kuliah()
     {
         $pengguna = Auth::user()->load("mahasiswa");
+        $tahun_ajaran = TahunAjaran::latest()->first();
 
         $enrollments = EnrollmentMahasiswa::with([
             "enrollment_dosen.mata_kuliah",
             "enrollment_dosen.dosen",
-            "enrollment_dosen.jadwal"
+            "enrollment_dosen.jadwal",
+            "riwayat_scan"
         ])
-            ->where("id_mahasiswa", $pengguna->mahasiswa->id_mahasiswa)
+            ->where("id_mahasiswa", $pengguna->mahasiswa->id_mahasiswa)->where("id_tahun_ajaran", $tahun_ajaran->id_tahun_ajaran)
             ->get();
+
 
         $list_hari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
         $jadwal_reguler = $enrollments->flatMap(function ($enrollment) use ($list_hari) {
@@ -41,11 +46,15 @@ class JadwalController extends Controller
             ->values();
 
         $hari_ini = now()->dayOfWeekIso;
-
         $jadwal_hari_ini = $enrollments->flatMap(function ($enrollment) use ($hari_ini, $list_hari) {
             return $enrollment?->enrollment_dosen?->jadwal
                 ->where('hari', $hari_ini)
                 ->map(function ($jadwal) use ($enrollment, $list_hari) {
+                    $sudah_scan = $enrollment->riwayat_scan->where(function ($scan) {
+                        $waktu_scan = Carbon::parse($scan->waktu_scan);
+                        return $waktu_scan->isToday();
+                    })->isNotEmpty();
+
                     return [
                         "mata_kuliah" => $enrollment->enrollment_dosen->mata_kuliah->nama,
                         "dosen" => $enrollment->enrollment_dosen->dosen->nama,
@@ -53,11 +62,11 @@ class JadwalController extends Controller
                         "ruangan" => $jadwal->ruangan,
                         "jam_mulai" => $jadwal->jam_mulai,
                         "jam_selesai" => $jadwal->jam_selesai,
+                        "scan_hari_ini" => $sudah_scan,
                     ];
                 });
         });
 
-        // dd($jadwal_hari_ini->toArray());
 
         return Inertia::render("Mahasiswa/JadwalKuliah", [
             "data" => [
