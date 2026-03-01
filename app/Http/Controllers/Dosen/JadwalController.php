@@ -11,7 +11,7 @@ class JadwalController extends Controller
 {
     public function show_jadwal_kuliah()
     {
-        $pengguna = Auth::user()->load("mahasiswa");
+        $pengguna = Auth::user()->load("dosen");
 
         $enrollments = EnrollmentDosen::with([
             "mata_kuliah",
@@ -44,6 +44,7 @@ class JadwalController extends Controller
             return $enrollment?->jadwal
                 ->where('hari', $hari_ini)
                 ->map(function ($jadwal) use ($enrollment, $list_hari) {
+                    $kode_sudah_dibuat = $jadwal->sesi_qr->where(fn($sesi) => $sesi->created_at->isToday())->isNotEmpty();
                     return [
                         "id_jadwal" => $jadwal->id_jadwal,
                         "mata_kuliah" => $enrollment->mata_kuliah->nama,
@@ -52,10 +53,10 @@ class JadwalController extends Controller
                         "kelas" => $jadwal->kelas,
                         "jam_mulai" => $jadwal->jam_mulai,
                         "jam_selesai" => $jadwal->jam_selesai,
+                        "kode_sudah_dibuat" => $kode_sudah_dibuat,
                     ];
                 });
         });
-
 
         return Inertia::render("Dosen/JadwalKuliah", [
             "data" => [
