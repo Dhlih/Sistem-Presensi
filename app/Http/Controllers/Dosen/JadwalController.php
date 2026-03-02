@@ -15,7 +15,7 @@ class JadwalController extends Controller
 
         $enrollments = EnrollmentDosen::with([
             "mata_kuliah",
-            "jadwal"
+            "jadwal.sesi_qr"
         ])->where("id_dosen", $pengguna->dosen->id_dosen)->get();
 
         $list_hari = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"];
@@ -39,12 +39,14 @@ class JadwalController extends Controller
             ->values();
 
         $hari_ini = now()->dayOfWeekIso;
-
         $jadwal_hari_ini = $enrollments->flatMap(function ($enrollment) use ($hari_ini, $list_hari) {
             return $enrollment?->jadwal
                 ->where('hari', $hari_ini)
                 ->map(function ($jadwal) use ($enrollment, $list_hari) {
                     $kode_sudah_dibuat = $jadwal->sesi_qr->where(fn($sesi) => $sesi->created_at->isToday())->isNotEmpty();
+                    $kode_sedang_berlangsung = $jadwal->sesi_qr
+                    ->filter(fn($sesi) => $sesi->waktu_berakhir > now())
+                    ->isNotEmpty();
                     return [
                         "id_jadwal" => $jadwal->id_jadwal,
                         "mata_kuliah" => $enrollment->mata_kuliah->nama,
@@ -54,9 +56,11 @@ class JadwalController extends Controller
                         "jam_mulai" => $jadwal->jam_mulai,
                         "jam_selesai" => $jadwal->jam_selesai,
                         "kode_sudah_dibuat" => $kode_sudah_dibuat,
+                        "kode_sedang_berlangsung" => $kode_sedang_berlangsung
                     ];
                 });
         });
+        // dd($jadwal_hari_ini->toArray());
 
         return Inertia::render("Dosen/JadwalKuliah", [
             "data" => [
