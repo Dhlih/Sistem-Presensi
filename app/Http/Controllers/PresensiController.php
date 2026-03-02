@@ -18,13 +18,12 @@ class PresensiController extends Controller
     // Dosen
     public function show_presensi(Jadwal $jadwal)
     {
+
         $sesi_aktif = $jadwal->sesi_qr()
             ->where('waktu_berakhir', '>', now())
             ->orderBy('waktu_mulai', 'desc')
             ->first();
-
         $mata_kuliah = $jadwal->enrollment_dosen->mata_kuliah->nama;
-        // dd($sesi_aktif->toArray());
 
         $enrollments = EnrollmentMahasiswa::with(['mahasiswa', 'riwayat_scan' => function ($query) use ($sesi_aktif) {
             if ($sesi_aktif) {
@@ -57,7 +56,6 @@ class PresensiController extends Controller
             ];
         });
 
-        // dd($daftar_mahasiswa->toArray());
         return Inertia::render("Dosen/Presensi", ["data" => [
             "sesi_aktif" => $sesi_aktif,
             "daftar_mahasiswa" => $daftar_mahasiswa,
@@ -88,6 +86,23 @@ class PresensiController extends Controller
         ]);
 
         return redirect("/dosen/jadwal/{$jadwal->id_jadwal}/presensi");
+    }
+
+    public function regenerate_qr_code(SesiQr $sesi_qr)
+    {
+        if ($sesi_qr->waktu_berakhir > now()) {
+            return back()->with("error", "Waktu kode belum berakhir!");
+        }
+
+        $sesi_qr->update([
+            'qr_token' => Str::random(40),
+            'waktu_berakhir' => now()->addMinutes(30),
+        ]);
+
+        $id_jadwal = $sesi_qr->jadwal->id_jadwal;
+
+        return redirect("/dosen/jadwal/{$id_jadwal}/presensi")
+            ->with('success', 'QR berhasil diregenerate.');
     }
 
     // Mahasiswa
