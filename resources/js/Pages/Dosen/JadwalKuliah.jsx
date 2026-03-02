@@ -1,4 +1,4 @@
-import { useForm, usePage } from "@inertiajs/react";
+import { useForm, usePage, Link } from "@inertiajs/react";
 import {
     MapPin,
     Clock,
@@ -73,7 +73,7 @@ const JadwalKuliah = () => {
                                 onClick={() => setShowFlash(false)}
                                 className="text-slate-400 hover:text-slate-600 transition-colors"
                             >
-                                < X size={18} />
+                                <X size={18} />
                             </button>
                         </div>
                     </div>
@@ -138,10 +138,16 @@ const JadwalKuliah = () => {
                                     {/* Tombol Generate QR / Mulai Presensi */}
                                     <div className="mt-6 pt-4 border-t border-slate-50">
                                         {item.kode_sudah_dibuat ? (
-                                            <button className="flex items-center justify-center gap-2 w-full py-3 bg-slate-100 text-slate-400 rounded-xl cursor-default font-bold text-sm">
-                                                <CheckCircle2 size={18} />
-                                                Sudah Dibuat
-                                            </button>
+                                            item.kode_sedang_berlangsung ? (
+                                                <Link href={`/dosen/jadwal/${item.id_jadwal}/presensi`} className="flex items-center cursor-pointer justify-center gap-2 w-full py-3 bg-slate-100 text-slate-400 rounded-xl cursor-default font-bold text-sm">
+                                                    Lihat kelas
+                                                </Link>
+                                            ) : (
+                                                <button className="flex items-center justify-center gap-2 w-full py-3 bg-slate-100 text-slate-400 rounded-xl cursor-default font-bold text-sm">
+                                                    <CheckCircle2 size={18} />
+                                                    Sudah Dibuat
+                                                </button>
+                                            )
                                         ) : (
                                             <button
                                                 className="flex items-center justify-center  gap-2 w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors font-bold text-sm shadow-sm shadow-blue-100"
