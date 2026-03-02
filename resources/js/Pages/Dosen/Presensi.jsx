@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { usePage, router } from "@inertiajs/react";
+import { usePage, router, useForm } from "@inertiajs/react";
 import {
     QrCode as QrIcon,
     CheckCircle2,
@@ -16,9 +16,12 @@ import Layout from "../../Components/Layout";
 const Presensi = () => {
     const { data } = usePage().props;
     const { daftar_mahasiswa = [], sesi_aktif = {}, mata_kuliah, kelas } = data;
-    const expires_at = "";
-    console.log(daftar_mahasiswa);
+    console.log(sesi_aktif);
+
     const [timeLeft, setTimeLeft] = useState(0);
+    const { patch, processing } = useForm();
+
+    const expires_at = "";
 
     useEffect(() => {
         const calculateTimeLeft = () => {
@@ -37,15 +40,7 @@ const Presensi = () => {
 
     const handleRegenerateQR = () => {
         // Menggunakan optional chaining untuk ID sesi
-        if (sesi_aktif?.id) {
-            router.post(
-                route("presensi.regenerate-qr", sesi_aktif.id),
-                {},
-                {
-                    preserveScroll: true,
-                },
-            );
-        }
+        patch(`/dosen/presensi/${sesi_aktif.id_sesi_qr}/regenerate`);
     };
 
     const updateStatus = (id, newStatus) => {
@@ -104,8 +99,8 @@ const Presensi = () => {
 
                         <button
                             onClick={handleRegenerateQR}
-                            className="flex items-center gap-2 px-6 py-3 bg-slate-800 hover:bg-black text-white rounded-xl transition-all font-bold text-sm shadow-lg active:scale-95 disabled:opacity-50"
-                            disabled={!sesi_aktif?.id}
+                            className="flex items-center gap-2 cursor-pointer px-6 py-3 bg-slate-800 hover:bg-black text-white rounded-xl transition-all font-bold text-sm shadow-lg active:scale-95 disabled:opacity-50"
+                            disabled={!sesi_aktif?.id_sesi_qr}
                         >
                             <RefreshCw size={18} />
                             Perbarui Kode QR
