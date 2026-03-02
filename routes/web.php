@@ -30,6 +30,8 @@ Route::middleware("auth")->group(function () {
         Route::post('/jadwal/{jadwal}/presensi', [PresensiController::class, "generate_qr_code"]);
 
         Route::get('/riwayat', [DosenRiwayatController::class, "show_riwayat_presensi"]);
+
+        Route::patch('/presensi/{sesi_qr}/regenerate', [PresensiController::class, "regenerate_qr_code"]);
     });
 
     // Mahasiswa route
